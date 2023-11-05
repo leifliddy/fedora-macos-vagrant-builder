@@ -1,0 +1,4 @@
+UUID=EFI_UUID_PLACEHOLDER                             /boot/efi   vfat  umask=0077,shortname=winnt 0 2
+UUID=BOOT_UUID_PLACEHOLDER  /boot       ext4  defaults 1 2
+UUID=ROOT_UUID_PLACEHOLDER  /           ext4  defaults 1 1
+local_mnt                                  /local_mnt  9p    trans=virtio,version=9p2000.L 0 0

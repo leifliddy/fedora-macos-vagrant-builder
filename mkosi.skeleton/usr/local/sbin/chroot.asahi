@@ -1,0 +1,10 @@
+#!/bin/bash
+
+root_fs=$(blkid -s TYPE -o value /dev/vdd)
+
+[[ $root_fs == "btrfs" ]] && options='-o subvol=root'
+[[ -z "$(findmnt -n /mnt)" ]] && mount /dev/vdd $options /mnt
+[[ -z "$(findmnt -n /mnt/boot)" ]] && mount /dev/vdc /mnt/boot
+[[ -z "$(findmnt -n /mnt/boot/efi)" ]] && mount /dev/vdb /mnt/boot/efi
+
+arch-chroot /mnt
