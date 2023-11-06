@@ -35,8 +35,7 @@ This image needs to currently be built on a ```Fedora 39``` system (```aarch64``
 
 ## To mount/umount/chroot the fedora.raw image  
 ```
-./build {mount, umount, chroot}<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31)" width=65%>
-
+./build {mount, umount, chroot}
 This is in incredibly usefull feature that lets you make changes to the raw image on the fly.  
 # this wiill mount/umount fedora.raw to/from mnt_image/ 
 # the chroot option will mount and arch-chroot you into mnt_image/
