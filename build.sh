@@ -2,7 +2,7 @@
 
 set -e
 
-mnt_image='mnt_image'
+mnt_image="$(pwd)/mnt_image"
 mkosi_output='mkosi.output'
 disk_raw="$mkosi_output/fedora.raw"
 
