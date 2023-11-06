@@ -1,5 +1,6 @@
 # Fedora qemu Asahi image
 Builds and runs minimal Fedora qemu image  
+**Note:** Currently this image must be built on a `Fedora 39` system with `mkosi` installed from main  
 
 Can be used to rescue a Fedora Asahi Linux system  
 
@@ -9,25 +10,23 @@ Can be used to rescue a Fedora Asahi Linux system
 
 The image can be built via `mkosi` or via booting and installing via an `iso` image
 
-## Building the image on Fedora
-This image needs to currently be built on a ```Fedora 39``` system (```aarch64``` or ```x86_64``` should both work)  
-## Fedora Package Install 
+## Fedora Packages needed to build and run the image  
 ```dnf install arch-install-scripts bubblewrap qemu-system-aarch64```
 
-## macos Package Install
+## macos Packages needed to run the image      
+```brew install qemu```
 
 ### Notes
-- The root password is **fedora**If the event that you make changes to the raw image in this manner
-
+- The root password is **fedora**
 - Once the VM is running you can connect to it via ssh port 2222 ie ```ssh -l root -p 2222 m1```  
-```qemu-user-static``` is needed if building the image on a ```non-aarch64``` system  
+- ```qemu-user-static``` is needed if building the image on a ```non-aarch64``` system  
 - Building the image on a **Fedora 39** system currently requires that you install `mkosi` from main:  
   `python3 -m pip install --user git+https://github.com/systemd/mkosi.git`
 
 ## To build the image via `mkosi`
 ```
-# build on a Fedora 39 system
-./build
+# This needs to be built on a Fedora 39 system
+./build.sh
 # this will create the following images:
 1. mkosi.output/fedora.raw
 2. qemu/fedora.qcow2 (this is simply a compressed version of fedora.raw that's used with qemu)
@@ -36,8 +35,8 @@ This image needs to currently be built on a ```Fedora 39``` system (```aarch64``
 ## To mount/umount/chroot the fedora.raw image  
 ```
 ./build {mount, umount, chroot}
-This is in incredibly usefull feature that lets you make changes to the raw image on the fly  
-# this wiill mount/umount fedora.raw to/from mnt_image/ 
+This is in incredibly useful feature that lets you make changes to the raw image on the fly  
+# this will mount/umount fedora.raw to/from mnt_image/ 
 # the chroot option will mount and arch-chroot you into mnt_image/
 ```
 If the event that you make changes to the raw image in this manner   
@@ -47,12 +46,12 @@ run the following to generate a new `fedora.qcow2` image
 ## To test out the fedora.qcow2 image  
 ```cd qemu```  
 ```./script-qemu.sh```  
-\# the `script-qemu-sh` script can run on both `Linux` and `macos` systems  
-\# once the image if confirmed as working  
+\# the `script-qemu-sh` script can run on either a `linux` or `macos` system  
+\# once the image if confirmed as working on `linux`  
 \# you can literally transfer the entire `qemu/` directory to a `macos` system ane run `script-qemu-sh` on `macos` to boot the image  
 
 ## To build the image via `iso`
-Simply run the following on either a `Linux` or `macos` system
+Simply run the following on either a `linux` or `macos` system
 ```
 git clone https://github.com/leifliddy/fedora-macos-asahi-qemu.git  
 cd qemu/    

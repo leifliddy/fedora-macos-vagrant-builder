@@ -90,14 +90,14 @@ make_image() {
     echo "### Setting uuid's in /etc/fstab"
 
     efi_uuid=$(blkid -s UUID -o value $efi_part)
-	boot_uuid=$(blkid -s UUID -o value $boot_part)
-	root_uuid=$(blkid -s UUID -o value $root_part)
+    boot_uuid=$(blkid -s UUID -o value $boot_part)
+    root_uuid=$(blkid -s UUID -o value $root_part)
 
-	sed -i "s/EFI_UUID_PLACEHOLDER/$efi_uuid/" $mnt_image/etc/fstab
-	sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/etc/fstab
-	sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/fstab
-	sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/kernel/cmdline
-	systemctl daemon-reload
+    sed -i "s/EFI_UUID_PLACEHOLDER/$efi_uuid/" $mnt_image/etc/fstab
+    sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/etc/fstab
+    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/fstab
+    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/kernel/cmdline
+    systemctl daemon-reload
 
     #need to generate a machine-id so that we can run kernel-install
     echo -e '\n### Generating a new machine-id'
@@ -138,7 +138,7 @@ make_image() {
     echo "### Converting $mkosi_output/fedora.raw to qemu/fedora.qcow2"
     echo '### To test out the image run:'
     echo 'cd qemu && ./script-qemu.sh'
-	[[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 $mkosi_output/fedora.raw qemu/fedora.qcow2
+    [[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 $mkosi_output/fedora.raw qemu/fedora.qcow2
 
     echo '### Done'
 }

@@ -66,7 +66,7 @@ if [[ -n $cdrom ]] && [[ ! -f $fedora_iso ]]; then
     # $fedora_iso_base is $fedora_iso with .iso stripped.
     # e.g. if fedora_iso_base == Fedora-Everything-netinst-aarch64-39.iso,
     # it discovers the most recent Fedora-Everything-netinst-aarch64-39*.iso
-    fedora_iso_image=$(curl $fedora_iso_base_url 2>/dev/null | grep $(basename -s .iso $fedora_iso) | sed -E 's|.*<a.*>\s*(.*)\s*</a>.*|\1|g' | grep -v manifest | sort -Vr | head -n 1)
+    fedora_iso_image=$(curl $fedora_iso_base_url 2> /dev/null | grep $(basename -s .iso $fedora_iso) | sed -E 's|.*<a.*>\s*(.*)\s*</a>.*|\1|g' | grep -v manifest | sort -Vr | head -n 1)
     if [[ $fedora_iso_image == '' ]]; then
         echo 'Could not find a suitable version of the Fedora installer ISO.'
         exit 1
