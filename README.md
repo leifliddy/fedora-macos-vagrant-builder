@@ -30,7 +30,7 @@ This image needs to currently be built on a ```Fedora 39``` system (```aarch64``
 ./build
 # this will create the following images:
 1. mkosi.output/fedora.raw
-2. qemu/fedora.qcow2 (this is simply a compressed verion of fedora.raw that's used with qemu)
+2. qemu/fedora.qcow2 (this is simply a compressed version of fedora.raw that's used with qemu)
 ```
 
 ## To mount/umount/chroot the fedora.raw image  
