@@ -3,7 +3,7 @@ Builds and runs minimal Fedora qemu image
 
 Can be used to rescue a Fedora Asahi Linux system  
 
-<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31)" width=65%>
+<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31" width=65%>
 <br/>
 <br/>
 
@@ -35,7 +35,8 @@ This image needs to currently be built on a ```Fedora 39``` system (```aarch64``
 
 ## To mount/umount/chroot the fedora.raw image  
 ```
-./build {mount, umount, chroot}
+./build {mount, umount, chroot}<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31)" width=65%>
+
 This is in incredibly usefull feature that lets you make changes to the raw image on the fly.  
 # this wiill mount/umount fedora.raw to/from mnt_image/ 
 # the chroot option will mount and arch-chroot you into mnt_image/
@@ -79,4 +80,4 @@ To exit from the `chroot` environment, simply type `ctrl+d` or `exit`
 2. `umount.asahi` will unmount the internal partitions from `/mnt`
 <br/>
 
-<img src="https://github.com/leifliddy/macos-qemu-asahi/assets/12903289/e900a23f-40b3-41d0-942b-52f3dbea4153" width=65%> 
+<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/40d2268b-ef69-4045-8a66-ea47e11507bb" width=65%>
