@@ -14,6 +14,7 @@ wipe=''
 cdrom=''
 vnc=''
 graphics='-nographic'
+install_vnc_port=''
 linux_drives=''
 
 [[ $(uname -a | grep -i darwin) ]] && mac=true && accelerator='hvf' && sudo='sudo'
@@ -74,6 +75,10 @@ if [[ -n $cdrom ]] && [[ ! -f $fedora_iso ]]; then
     wget "${fedora_iso_base_url}${fedora_iso_image}" -O $fedora_iso
 fi
 
+# you only need to forward port 5901 when using the installer iso
+[[ -n $cdrom ]] && install_vnc_port=',hostfwd=tcp::5901-:5901'
+
+# specify the -w|--wipe arg to remove fedora.qcow2 hdd and create a new one
 [[ $wipe = true ]] && [[ -f $fedora_hdd ]] && rm -f $fedora_hdd
 
 # if fedora.qcow2 does not exist -- then create a new one with size specified by $fedora_hdd_size
@@ -81,8 +86,6 @@ fi
 
 # notes:
 # ctrl+a, release, then x to exit a qemu session (better to shutdown the proper way though)
-
-# specify the -w|--wipe arg to remove fedora.qcow2 hdd and create a new one
 
 # if you enable the  -v|--vnc option you need to to connect a vnc client to port :5900
 
@@ -98,7 +101,7 @@ $sudo qemu-system-aarch64 \
     $vnc \
     -drive file=$fedora_hdd,format=qcow2,if=virtio,cache=writethrough \
     -device virtio-net-pci,netdev=mynet0 \
-    -netdev user,id=mynet0,hostfwd=tcp::$ssh_port_host-:22,hostfwd=tcp::5901-:5901 \
+    -netdev user,id=mynet0,hostfwd=tcp::$ssh_port_host-:22$install_vnc_port \
     -fsdev local,id=cur_dir_dev,path=$cur_dir,security_model=mapped-xattr \
     -device virtio-9p-pci,fsdev=cur_dir_dev,mount_tag=local_mnt \
     $linux_drives \
