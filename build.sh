@@ -67,7 +67,7 @@ if [[ $1 == 'mount' ]]; then
     mount_image
     exit
 elif [[ $1 == 'umount' ]] || [[ $1 == 'unmount' ]]; then
-    umount_image    # if  $mnt_image is mounted, then unmount it
+    umount_image
     exit
 elif [[ $1 == 'remount' ]]; then
     umount_image
