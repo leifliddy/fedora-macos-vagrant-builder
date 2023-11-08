@@ -11,7 +11,7 @@ Can be used to rescue a Fedora Asahi Linux system
 The image can be built via `mkosi` or via booting and installing via an `iso` image
 
 ## Fedora Packages needed to build and run the image  
-```dnf install arch-install-scripts bubblewrap mtools qemu-system-aarch64```
+```dnf install arch-install-scripts bubblewrap mtools qemu-img qemu-system-aarch64```
 
 ## macos Packages needed to run the image      
 ```brew install qemu```
