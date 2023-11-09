@@ -4,3 +4,4 @@ mnt_image
 qemu/*.qcow2
 qemu/*.iso
 vagrant/*.box
+vagrant/*.json
