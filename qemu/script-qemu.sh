@@ -4,6 +4,8 @@ set -e
 
 fedora_hdd='fedora.qcow2'
 fedora_hdd_size='20G'
+cpus='4'
+memory='2048M'
 # the forwarded ssh port used to access the Fedora VM from the host
 ssh_port_host=2222
 cur_dir=$(pwd)
@@ -93,8 +95,8 @@ $sudo qemu-system-aarch64 \
     -machine virt \
     -accel $accelerator \
     -cpu host \
-    -smp 4 \
-    -m 2048M \
+    -smp $cpus \
+    -m $memory \
     -bios $bios \
     $graphics \
     $cdrom \

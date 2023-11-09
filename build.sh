@@ -51,7 +51,7 @@ get_partition_devices() {
     efi_loopdev=$(echo "$loop_devices" | grep 'p1$')
     boot_loopdev=$(echo "$loop_devices" | grep 'p2$')
     root_loopdev=$(echo "$loop_devices" | grep 'p3$')
- 
+
     efi_part="/dev/mapper/$efi_loopdev"
     boot_part="/dev/mapper/$boot_loopdev"
     root_part="/dev/mapper/$root_loopdev"
@@ -112,11 +112,6 @@ make_image() {
     # run kernel-install
     echo '### Running kernel-install'
     arch-chroot $mnt_image /image.creation/kernel.install.sh
-
-    # selinux will be set to enforcing on the first boot via asahi-firstboot.service
-    # set to permissive here to ensure the system performs an initial boot
-    echo '### Setting selinux to permissive'
-    sed -i 's/^SELINUX=.*$/SELINUX=permissive/' $mnt_image/etc/selinux/config
 
     # add vim alias to root bashrc
     echo "alias vi='vim'" >> /root/.bashrc
