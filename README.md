@@ -8,6 +8,54 @@ Can be used to rescue a Fedora Asahi Linux system
 <br/>
 <br/>
 
+## To use a pre-buit Vagrant Box to rescue a Fedora Asahi Remix installation
+**note** This is an experimental/new feature. The scripts will become better developed over the next week or so....    
+
+Ensure this packages/plugins are installed on macos:
+```
+brew reinstall qemu vagrant
+vagrant plugin install vagrant-qemu
+```
+Then just run the following to download and start a Fedora 39 vagrant box:
+```
+# A Vagrantfile should go into its own directory
+mkdir vagrant-fedora
+cd vagrant-fedora
+curl https://leifliddy.com/vagrant.sh | sh
+```
+You should now see the `fedora_39` Vagrantbox installed
+```
+[leif.liddy@m1 ~]$ vagrant box list
+fedora_39      (libvirt, 20231109)
+```
+Use any of these methods to ssh in the `fedora` Vagrantbox   
+```
+vagrant ssh 
+vagrant ssh fedora 
+ssh -l root -i $(vagrant ssh-config | grep IdentityFile | awk '{print $2}') -p 3333 localhost
+```
+
+Once you've verifed it boots and you can ssh into it, then run:   
+```vagrant halt```   
+**Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
+
+Now uncomment this line in the Vagrantfile -- this will allow vagrant to gain access to the internal linux partitions   
+`linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'`
+
+**Note:** `sudo` is needed to mount the linux partitions -- but it also jacks with the vagrant permissions   
+which meants after running `sudo vagrant ...` -- every subsequent vagrant command needs to be run with `sudo vagrant`    
+
+So to `chroot` into your Fedora Asahi Remix installation:   
+```
+sudo vagrant up
+sudo vagrant ssh 
+chroot.asahi
+```
+You should now be chroot'd into your Fedora Asahi Remix install  
+
+<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/acd2bded-8e38-4e0f-ab73-79209072a051" width=65%>
+
+## Building the image   
 The image can be built via `mkosi` or via booting and installing via an `iso` image
 
 ## Fedora Packages needed to build and run the image  
@@ -24,7 +72,7 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
   `python3 -m pip install --user git+https://github.com/systemd/mkosi.git`
 
 ## To build the image via `mkosi`
-```
+```# sudo is needed to mount the linux partitions -- but it also jacks with the vagrant permissions # which meants after running vagrant with sudo -- every subsequent vagrant command needs to run with sudo  # so now run 
 # This needs to be built on a Fedora 39 system
 ./build.sh
 # this will create the following images:
@@ -32,7 +80,7 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 2. qemu/fedora.qcow2 (this is simply a compressed version of fedora.raw that's used with qemu)
 ```
 
-## To mount/umount/chroot the fedora.raw image  
+## To mount/umount/ the fedora.raw image  
 ```
 ./build {mount, umount, chroot}
 This is in incredibly useful feature that lets you make changes to the raw image on the fly  
