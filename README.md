@@ -50,7 +50,7 @@ Now uncomment this line in the Vagrantfile -- this will allow vagrant to gain ac
 `linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'`
 
 **Note:** `sudo` is needed to mount the linux partitions -- but it also jacks with the vagrant permissions   
-which meants after running `sudo vagrant ...` the first time -- every subsequent vagrant command needs to be run with `sudo vagrant`    
+which meants after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
 
 So to `chroot` into your Fedora Asahi Remix installation:   
 ```
