@@ -9,7 +9,7 @@ Can be used to rescue a Fedora Asahi Linux system
 <br/>
 
 ## To use a pre-buit Vagrant Box to rescue a Fedora Asahi Remix installation
-**note** This is an experimental/new feature. The scripts will become better developed over the next week or so....    
+**Note:** This is an experimental/new feature. The scripts will become better developed over the next week or so....    
 
 Ensure this packages/plugins are installed on macos:
 ```
@@ -23,6 +23,13 @@ mkdir vagrant-fedora
 cd vagrant-fedora
 curl https://leifliddy.com/vagrant.sh | sh
 ```
+**Note:** if you ever decide to remove this Vagrantbox in the future   
+Ensure you remove this subdirectory   
+
+```
+[leif.liddy@m1 vagrant-fedora]$ rm -rf .vagrant/
+```
+
 You should now see the `fedora_39` Vagrantbox installed
 ```
 [leif.liddy@m1 ~]$ vagrant box list
