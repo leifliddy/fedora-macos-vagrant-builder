@@ -5,12 +5,12 @@ module VagrantConfig
 require 'fileutils'
 require 'rexml/document'
 
-cur_dir = __dir__
+cur_dir   = __dir__
 vbox_name = 'fedora_39'
-vm_name = 'fedora_39'
-ssh_port = 3333
-cpus = 4
-memory = 2048
+ssh_port  = 3333
+cpus      = 4
+memory    = 2048
+url = 'https://leifliddy.com/vagrant/fedora_39.box'
 
 linux_partitions = ''
 #linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6
@@ -21,29 +21,26 @@ Vagrant.configure("2") do |config|
   config.ssh.username      = 'root'
   config.ssh.password      = 'fedora'
   config.ssh.keep_alive    = true
+  config.vm.box = vbox_name
+  config.vm.box_url = url
+  config.vm.synced_folder cur_dir, '/vagrant', disabled: true
 
   config.vm.define 'fedora' do |fedora|
-    fedora.vm.provider "qemu" do |qe|
-      qe.name = 'fedora'
-      qe.qemu_dir = '/opt/homebrew/share/qemu'
-      qe.arch = 'aarch64'
-      qe.machine = 'virt,accel=hvf,highmem=on'
-      qe.smp = cpus
-      qe.memory = memory
-      qe.cpu = "host"
-      qe.net_device = "virtio-net-pci"
-      qe.ssh_port = ssh_port
-      #qe.extra_netdev_args = "hostfwd=tcp::5900-:5900"
+	  config.vm.provider "qemu" do |qe|
+		  qe.name = 'fedora'
+		  qe.qemu_dir = '/opt/homebrew/share/qemu'
+		  qe.arch = 'aarch64'
+		  qe.machine = 'virt,accel=hvf,highmem=on'
+		  qe.smp = cpus
+		  qe.memory = memory
+		  qe.cpu = "host"
+		  qe.net_device = "virtio-net-pci"
+		  qe.ssh_port = ssh_port
+		  #qe.extra_netdev_args = "hostfwd=tcp::5900-:5900"
 
-      qe.extra_qemu_args = "-fsdev local,id=cur_dir_dev,path=#{cur_dir},security_model=mapped-xattr
-                            -device virtio-9p-pci,fsdev=cur_dir_dev,mount_tag=local_mnt #{linux_partitions}".split
+          qe.extra_qemu_args = "-fsdev local,id=cur_dir_dev,path=#{cur_dir},security_model=mapped-xattr
+                                -device virtio-9p-pci,fsdev=cur_dir_dev,mount_tag=local_mnt #{linux_partitions}".split
   end
-
-  fedora.vm.box = vbox_name
-  fedora.vm.synced_folder cur_dir, '/vagrant', disabled: true
-
   end
-
+  end
 end
-end
-

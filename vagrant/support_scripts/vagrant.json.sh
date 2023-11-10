@@ -43,4 +43,4 @@ cat <<EOF > $json_name
 }
 EOF
 
-echo "wrote $json_name"
+echo -e "\nwrote: $json_name\nwrote: $box_name"
