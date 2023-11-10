@@ -133,7 +133,7 @@ make_image() {
     echo "### Converting $mkosi_output/fedora.raw to qemu/fedora.qcow2"
     echo '### To test out the image run:'
     echo 'cd qemu && ./script-qemu.sh'
-    [[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 $mkosi_output/fedora.raw qemu/fedora.qcow2
+    [[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 -c $mkosi_output/fedora.raw qemu/fedora.qcow2
 
     echo '### Done'
 }
