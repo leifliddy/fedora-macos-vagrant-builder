@@ -13,7 +13,7 @@ Can be used to rescue a Fedora Asahi Linux system
 
 Ensure this packages/plugins are installed on macos:
 ```
-brew reinstall qemu vagrant
+brew install qemu vagrant
 vagrant plugin install vagrant-qemu
 ```
 Then just run the following to download and start a Fedora 39 vagrant box:
