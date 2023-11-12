@@ -8,7 +8,7 @@ This can be used to rescue a Fedora Asahi Linux system from within macos
 <br/>
 <br/>
 
-## Deploying a pre-buit Vagrant Box to rescue a Fedora Asahi Remix installation
+## Deploying a pre-built Vagrant Box to rescue a Fedora Asahi Remix installation
 **Note:** This is an experimental/new feature. The scripts will become better developed over the next week or so....    
 
 Ensure this packages/plugins are installed on macos:
