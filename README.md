@@ -2,7 +2,7 @@
 Builds and runs minimal Fedora `qemu` image that can be converted into a `vagrant` box  
 **Note:** Currently this image must be built on a `Fedora 39` system with `mkosi` installed from main  
 
-Tbis can be used to rescue a Fedora Asahi Linux system from within macos  
+This can be used to rescue a Fedora Asahi Linux system from within macos  
 
 <img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31" width=65%>
 <br/>
