@@ -20,7 +20,6 @@ fi
 mkosi_create_rootfs() {
     umount_image
     mkosi clean
-    rm -rf .mkosi*
     mkosi
 }
 
