@@ -36,6 +36,8 @@ isabspath(){
     [[ "$path" =~ ^/.* ]]
 }
 
+echo -e '\n############## running create_box.sh ##############'
+
 if [ -z "$1" ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     usage
     exit 1
