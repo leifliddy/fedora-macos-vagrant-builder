@@ -15,7 +15,7 @@ done
 shift $((OPTIND-1))
 
 #[[ -z $1 ]] && echo 'usage is serial-connect.sh [VM NAME]' && exit
-[[ -n $1 ]] vm_name="$1" || vm_name='fedora'
+[[ -n $1 ]] && vm_name="$1" || vm_name='fedora'
 
 id_file=".vagrant/machines/$vm_name/qemu/id"
 
