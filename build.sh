@@ -105,53 +105,53 @@ fi
 
 
 make_image() {
-#    # if  $mnt_image is unmounted, then mount it
-#    mount_image
-#    echo "### Setting uuid's in /etc/fstab"
+    # if  $mnt_image is unmounted, then mount it
+    mount_image
+    echo "### Setting uuid's in /etc/fstab"
 
-#    efi_uuid=$(blkid -s UUID -o value $efi_part)
-#    boot_uuid=$(blkid -s UUID -o value $boot_part)
-#    root_uuid=$(blkid -s UUID -o value $root_part)
+    efi_uuid=$(blkid -s UUID -o value $efi_part)
+    boot_uuid=$(blkid -s UUID -o value $boot_part)
+    root_uuid=$(blkid -s UUID -o value $root_part)
 
-#    sed -i "s/EFI_UUID_PLACEHOLDER/$efi_uuid/" $mnt_image/etc/fstab
-#    sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/etc/fstab
-#    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/fstab
-#    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/kernel/cmdline
-#    systemctl daemon-reload
+    sed -i "s/EFI_UUID_PLACEHOLDER/$efi_uuid/" $mnt_image/etc/fstab
+    sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/etc/fstab
+    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/fstab
+    sed -i "s/ROOT_UUID_PLACEHOLDER/$root_uuid/" $mnt_image/etc/kernel/cmdline
+    systemctl daemon-reload
 
-#    #need to generate a machine-id so that we can run kernel-install
-#    echo -e '\n### Generating a new machine-id'
-#    rm -f $mnt_image/etc/machine-id
-#    chroot $mnt_image dbus-uuidgen --ensure=/etc/machine-id
-#    chroot $mnt_image echo "KERNEL_INSTALL_MACHINE_ID=$(cat $mnt_image/etc/machine-id)" > $mnt_image/etc/machine-info
+    #need to generate a machine-id so that we can run kernel-install
+    echo -e '\n### Generating a new machine-id'
+    rm -f $mnt_image/etc/machine-id
+    chroot $mnt_image dbus-uuidgen --ensure=/etc/machine-id
+    chroot $mnt_image echo "KERNEL_INSTALL_MACHINE_ID=$(cat $mnt_image/etc/machine-id)" > $mnt_image/etc/machine-info
 
-#    echo -e '\n### Generating GRUB config'
-#    sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/boot/efi/EFI/fedora/grub.cfg
-#    arch-chroot $mnt_image grub2-mkconfig -o /boot/grub2/grub.cfg
+    echo -e '\n### Generating GRUB config'
+    sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/boot/efi/EFI/fedora/grub.cfg
+    arch-chroot $mnt_image grub2-mkconfig -o /boot/grub2/grub.cfg
 
-#    # run kernel-install
-#    echo '### Running kernel-install'
-#    arch-chroot $mnt_image /image.creation/kernel.install.sh
+    # run kernel-install
+    echo '### Running kernel-install'
+    arch-chroot $mnt_image /image.creation/kernel.install.sh
 
-#    # add vim alias to root bashrc
-#    echo "alias vi='vim'" >> /root/.bashrc
+    # add vim alias to root bashrc
+    echo "alias vi='vim'" >> /root/.bashrc
 
-#    ###### post-install cleanup ######
-#    echo -e '\n### Cleanup'
-#    rm -f $mnt_image/init
-#    rm -rf $mnt_image/lost+found/
-#    rm -rf $mnt_image/boot/lost+found/
+    ###### post-install cleanup ######
+    echo -e '\n### Cleanup'
+    rm -f $mnt_image/init
+    rm -rf $mnt_image/lost+found/
+    rm -rf $mnt_image/boot/lost+found/
 
-#    rm -f $mnt_image/var/lib/systemd/random-seed
-#    sed -i '/GRUB_DISABLE_OS_PROBER=true/d' $mnt_image/etc/default/grub
+    rm -f $mnt_image/var/lib/systemd/random-seed
+    sed -i '/GRUB_DISABLE_OS_PROBER=true/d' $mnt_image/etc/default/grub
 
-#    # not sure how/why a mnt_image/root/fedora-macos-asahi-qemu directory is being created
-#    # remove it like this to account for it being named something different
-#    find $mnt_image/root/ -maxdepth 1 -mindepth 1 -type d | grep -Ev '/\..*$' | xargs rm -rf
-#    umount_image
+    # not sure how/why a mnt_image/root/fedora-macos-asahi-qemu directory is being created
+    # remove it like this to account for it being named something different
+    find $mnt_image/root/ -maxdepth 1 -mindepth 1 -type d | grep -Ev '/\..*$' | xargs rm -rf
+    umount_image
 
-#    echo "### Converting $mkosi_output/fedora.raw to qemu/fedora.qcow2"
-#    [[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 $compress $mkosi_output/fedora.raw qemu/fedora.qcow2
+    echo "### Converting $mkosi_output/fedora.raw to qemu/fedora.qcow2"
+    [[ -f $mkosi_output/fedora.raw ]] && qemu-img convert -f raw -O qcow2 $compress $mkosi_output/fedora.raw qemu/fedora.qcow2
     echo -e '\n### To run the image with qemu:'
     echo 'cd qemu && ./script-qemu.sh'
 
@@ -161,5 +161,5 @@ make_image() {
 }
 
 [[ $(command -v getenforce) ]] && setenforce 0
-#mkosi_create_rootfs
+mkosi_create_rootfs
 make_image
