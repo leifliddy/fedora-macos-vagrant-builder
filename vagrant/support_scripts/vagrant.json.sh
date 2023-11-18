@@ -2,27 +2,42 @@
 
 set -e
 
-vbox_image_name='fedora_39'
-box_name="${vbox_image_name}.box"
-json_name="${vbox_image_name}.json"
-date=$(date '+%Y%m%d')
+
+echo -e "\n############# running $(basename "$0") #############"
+
 cur_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
-vagrant_box="$(dirname $cur_dir)/$box_name"
 
-# used with the -w argument
-web_url='https://leifliddy.com/vagrant/fedora_39.box'
+## url examples
+# url='fedora_39.box' (default -- will be derived from --name if not specified)
+# url='https://leifliddy.com/vagrant/fedora_39.box'
 
-[[ ! -f $vagrant_box ]] && echo "$vagrant_box doesn't exist" && exit
-checksum_sha256=$(sha256sum $vagrant_box | awk '{print $1}')
+usage=$(echo -e "Usage $(basename "$0") --name [IMAGE)\n
+  -n, --name        name of the vagrant box
+  -u, --url         can be the box name or a url path
+      --help        display this help and exit\n
+")
 
-while getopts :w arg
+
+while [[ $# -gt 0 ]];
 do
-    case "${arg}" in
-        w) is_url=true;;
+    case $1 in
+        --help) echo "$usage"; exit;;
+        -n|--name) shift; vbox_image_name=$1;;
+        -u|--url)  shift; url=$1;;
     esac
+    shift
 done
 
-[[ $is_url = true ]] && url=$web_url || url=$box_name
+
+[[ -z $vbox_image_name ]] && echo "$usage" && exit
+[[ $(echo $vbox_image_name | grep -E '\.box$') ]] && vbox_name=$vbox_image_name || vbox_name="${vbox_image_name}.box"
+json_name="${vbox_image_name}.json"
+vagrant_box_path="$(dirname $cur_dir)/$vbox_name"
+
+[[ ! -f $vagrant_box_path ]] && echo "$vagrant_box_path doesn't exist" && exit
+[[ -z $url ]] && url=$vbox_name
+echo "vbox_image_name: $vbox_image_name"
+echo "url: $url"
 
 cat <<EOF > $json_name
 {
@@ -43,4 +58,4 @@ cat <<EOF > $json_name
 }
 EOF
 
-echo -e "\nwrote: $json_name\nwrote: $box_name"
+echo -e "\nwrote: $json_name"
