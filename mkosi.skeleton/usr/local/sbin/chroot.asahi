@@ -1,5 +1,6 @@
 #!/bin/bash
 
+systemctl daemon-reload
 root_fs=$(blkid -s TYPE -o value /dev/vdd)
 
 [[ $root_fs == "btrfs" ]] && options='-o subvol=root'
