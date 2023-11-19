@@ -138,7 +138,7 @@ To perform a graphical install, choose the 1) Start VNC option and connect a vnc
 ```
 
 ## /local_mnt
-```/local_mnt``` is a directory with the VM that's shared with the host system.  
+```/local_mnt``` is a directory located within the VM that's shared with the host system.  
 You can use it to transfer files to/from the VM  
 
 ## Rescuing a Fedora Asahi install  
