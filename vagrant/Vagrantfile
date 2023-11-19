@@ -25,6 +25,21 @@ if system == 'linux'
     sudo = false
     accelerator = 'kvm'
     qemu_dir = "#{cur_dir}/support_scripts"
+    partition_msg = 'Running on Linux'
+    ####################### ensure bios files are installed #######################
+    edk2_aarch64_code = '/usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw'
+    edk2_arm_vars = '/usr/share/edk2/aarch64/vars-template-pflash.raw'
+    support_dir = "#{cur_dir}/support_scripts"
+    Dir.mkdir(support_dir) unless File.exist?(support_dir)
+
+    if not File.exist?("#{support_dir}/edk2-aarch64-code.fd")
+        FileUtils.cp(edk2_aarch64_code, "#{support_dir}/edk2-aarch64-code.fd")
+    end
+
+    if not File.exist?('#{support_dir}/edk2-arm-vars.fd')
+        FileUtils.cp(edk2_arm_vars, "#{support_dir}/edk2-arm-vars.fd")
+    end
+    ###############################################################################
 elsif system == 'macos'
     sudo = true
     accelerator='hvf'
