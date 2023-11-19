@@ -47,8 +47,6 @@ vagrant ssh fedora
 ssh -l root -i $(vagrant ssh-config | grep IdentityFile | awk '{print $2}') -p 3333 localhost
 ```
 
-Once you've verified it boots and you can ssh into it, then run:   
-```vagrant halt```   
 **Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
 
 **Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
