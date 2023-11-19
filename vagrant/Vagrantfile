@@ -30,18 +30,17 @@ elsif system == 'macos'
     sudo = true
     accelerator='hvf'
     qemu_dir='/opt/homebrew/share/qemu'
-    linux_disk_count = `ls /dev/disk0s* | grep -E '/dev/disk0s1|/dev/disk0s2|/dev/disk0s3' | wc -l | tr -d ' ' `
-    if linux_disk_count == '3'
+    linux_disk_count = `ls /dev/disk0s* | grep -E '/dev/disk0s4|/dev/disk0s5|/dev/disk0s6' | wc -l | tr -d ' '`
+    linux_disk_count = linux_disk_count.to_i
+    if linux_disk_count == 3
+        puts 'Linux partitions found'
         linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'
+    else
+        puts 'Linux partitions not found'
     end
 else
     puts 'system not supporrted'
     exit
-end
-
-if sudo == true && Etc.getpwuid.uid != 0
-  puts "You need to run this script as root or sudo when running from macos"
-  exit 1
 end
 
 
@@ -51,6 +50,12 @@ if qemu_plugin_installed.empty?
     puts 'install it with:'
     puts 'vagrant plugin install vagrant-qemu'
     exit
+end
+
+
+if sudo == true && Etc.getpwuid.uid != 0
+  puts "You need to run this script as root or sudo when running from macos"
+  exit 1
 end
 
 
