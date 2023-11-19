@@ -21,7 +21,8 @@ Then just run the following to download and start a Fedora 39 vagrant box:
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
 cd vagrant-fedora
-curl https://leifliddy.com/vagrant.sh | sh
+# macos needs sudo to mount the linux partitions
+curl https://leifliddy.com/vagrant.sh | sudo sh
 ```
 **Note:** if you ever decide to remove this Vagrantbox in the future   
 Ensure you remove this subdirectory   
