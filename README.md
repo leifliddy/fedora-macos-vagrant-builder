@@ -38,7 +38,7 @@ Ensure you remove this subdirectory
 You should now see the `fedora_39` Vagrantbox installed
 ```
 [leif.liddy@m1 ~]$ vagrant box list
-fedora_39      (libvirt, 20231109)
+fedora_39      (libvirt, 20231118)
 ```
 Use any of these methods to ssh in the `fedora` Vagrantbox   
 ```
