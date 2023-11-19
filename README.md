@@ -25,7 +25,7 @@ Then just run the following to download and start a Fedora 39 vagrant box:
 ```
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
-cd vagrant-fedora
+cd vagrantwith-fedora
 curl https://leifliddy.com/vagrant.sh | sh
 ```
 **Note:** if you ever decide to remove this Vagrantbox in the future   
@@ -102,14 +102,34 @@ If the event that you make changes to the raw image in this manner
 run the following to generate a new `fedora.qcow2` image  
 ```qemu-img convert -f raw -O qcow2 mkosi.output/fedora.raw qemu/fedora.qcow2```
 
-## To test out the fedora.qcow2 image  
-```cd qemu```  
-```./script-qemu.sh```  
+## Use qemu to run the fedora.qcow2 image  
+```
+cd qemu
+./script-qemu.sh
+```  
 \# the `script-qemu-sh` script can run on either a `linux` or `macos` system  
 \# once the image if confirmed as working on `linux`  
 \# you can literally transfer the entire `qemu/` directory to a `macos` system ane run `script-qemu-sh` on `macos` to boot the image  
 
-## To perform a Fedora instlalation via an `iso` image
+## Create a vagrant box
+Creates a vagrant box from the `fedora.cow2` image produced in the previous steps  
+```
+cd vagrant
+./script-vagrant.sh
+```
+This script is only supported on Linux at the moment  
+The output will produce two files
+```
+fedora_39.box
+fedora_39.json
+```
+Although you can add a vagrant box directly -- it's beter add it via the json file  
+To add a new vagrant box 
+```
+vagrant box add fedora_39.json
+```
+
+## To perform a Fedora installation via an `iso` image
 Simply run the following on either a `linux` or `macos` system
 ```
 git clone https://github.com/leifliddy/fedora-macos-asahi-qemu.git  
