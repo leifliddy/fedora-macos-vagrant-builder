@@ -9,11 +9,16 @@ This can be used to rescue a Fedora Asahi Linux system from within macos
 <br/>
 
 ## Deploying a pre-built Vagrant Box to rescue a Fedora Asahi Remix installation
-**Note:** This is an experimental/new feature. The scripts will become better developed over the next week or so....    
+**Note:** Although this image can be run on both **macos** and **Fedora** systems -- the main use-case is **macos**  
 
-Ensure this packages/plugins are installed on macos:
+Ensure this packages/plugins are installed on `macos`:
 ```
 brew install qemu vagrant
+vagrant plugin install vagrant-qemu
+```
+Ensure these package are installed on `Fedora`:   
+```
+dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
 ```
 Then just run the following to download and start a Fedora 39 vagrant box:
@@ -21,8 +26,7 @@ Then just run the following to download and start a Fedora 39 vagrant box:
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
 cd vagrant-fedora
-# macos needs sudo to mount the linux partitions
-curl https://leifliddy.com/vagrant.sh | sudo sh
+curl https://leifliddy.com/vagrant.sh | sh
 ```
 **Note:** if you ever decide to remove this Vagrantbox in the future   
 Ensure you remove this subdirectory   
@@ -47,13 +51,12 @@ Once you've verified it boots and you can ssh into it, then run:
 ```vagrant halt```   
 **Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
 
-Now uncomment this line in the Vagrantfile -- this will allow vagrant to gain access to the internal linux partitions   
-`linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'`
-
-**Note:** `sudo` is needed to mount the linux partitions -- but it also jacks with the vagrant permissions   
+**Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
 which means after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
 
-So to `chroot` into your Fedora Asahi Remix installation:   
+The `Vagrantfile` will prompt you to run `vagrant` commands with `sudo` on **macos** systems  
+
+So to `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
 ```
 sudo vagrant up
 sudo vagrant ssh 
@@ -106,7 +109,7 @@ run the following to generate a new `fedora.qcow2` image
 \# once the image if confirmed as working on `linux`  
 \# you can literally transfer the entire `qemu/` directory to a `macos` system ane run `script-qemu-sh` on `macos` to boot the image  
 
-## To build the image via `iso`
+## To perform a Fedora instlalation via an `iso` image
 Simply run the following on either a `linux` or `macos` system
 ```
 git clone https://github.com/leifliddy/fedora-macos-asahi-qemu.git  
