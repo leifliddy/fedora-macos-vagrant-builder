@@ -13,7 +13,6 @@ cpus      = 4
 memory    = 2048
 
 linux_partitions = ''
-
 linux = `uname -a | grep -i linux`
 
 if not linux.empty?
@@ -33,14 +32,14 @@ elsif system == 'macos'
     linux_disk_count = `ls /dev/disk0s* | grep -E '/dev/disk0s4|/dev/disk0s5|/dev/disk0s6' | wc -l | tr -d ' '`
     linux_disk_count = linux_disk_count.to_i
     if linux_disk_count == 3
-        puts 'Linux partitions found'
+        partition_msg = 'Linux partitions found'
         linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'
     else
-        puts 'Linux partitions not found'
+        partition_msg = 'Linux partitions not found'
     end
 else
     puts 'system not supporrted'
-    exit
+    exit 1
 end
 
 
@@ -49,7 +48,7 @@ if qemu_plugin_installed.empty?
     puts 'the vagrant-qemu plugin is not installed'
     puts 'install it with:'
     puts 'vagrant plugin install vagrant-qemu'
-    exit
+    exit 1
 end
 
 
@@ -67,6 +66,9 @@ Vagrant.configure("2") do |config|
   config.ssh.keep_alive    = true
   config.vm.box = vbox_name
   config.vm.synced_folder cur_dir, '/vagrant', disabled: true
+  config.trigger.after :up do |trigger|
+      trigger.run_remote = {inline: "echo #{partition_msg}"}
+  end
 
   config.vm.define 'fedora' do |fedora|
 	  config.vm.provider "qemu" do |qe|
