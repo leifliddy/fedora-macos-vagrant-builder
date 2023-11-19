@@ -5,3 +5,6 @@ qemu/*.qcow2
 qemu/*.iso
 vagrant/*.box
 vagrant/*.json
+vagrant/.vagrant
+vagrant/support_scripts/edk2-arm-vars.fd
+vagrant/support_scripts/edk2-aarch64-code.fd

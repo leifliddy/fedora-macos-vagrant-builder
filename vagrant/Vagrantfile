@@ -4,6 +4,7 @@
 module VagrantConfig
 require 'fileutils'
 require 'rexml/document'
+require 'etc'
 
 cur_dir   = __dir__
 vbox_name = 'fedora_39'
@@ -12,7 +13,46 @@ cpus      = 4
 memory    = 2048
 
 linux_partitions = ''
-#linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6
+
+linux = `uname -a | grep -i linux`
+
+if not linux.empty?
+  system = 'linux'
+else
+  system = 'macos'
+end
+
+if system == 'linux'
+    sudo = false
+    accelerator = 'kvm'
+    qemu_dir = "#{cur_dir}/support_scripts"
+elsif system == 'macos'
+    sudo = true
+    accelerator='hvf'
+    qemu_dir='/opt/homebrew/share/qemu'
+    linux_disk_count = `ls /dev/disk0s* | grep -E '/dev/disk0s1|/dev/disk0s2|/dev/disk0s3' | wc -l | tr -d ' ' `
+    if linux_disk_count == '3'
+        linux_partitions = '-drive if=virtio,format=raw,file=/dev/disk0s4 -drive if=virtio,format=raw,file=/dev/disk0s5 -drive if=virtio,format=raw,file=/dev/disk0s6'
+    end
+else
+    puts 'system not supporrted'
+    exit
+end
+
+if sudo == true && Etc.getpwuid.uid != 0
+  puts "You need to run this script as root or sudo when running from macos"
+  exit 1
+end
+
+
+qemu_plugin_installed = `vagrant plugin list | grep vagrant-qemu`
+if qemu_plugin_installed.empty?
+    puts 'the vagrant-qemu plugin is not installed'
+    puts 'install it with:'
+    puts 'vagrant plugin install vagrant-qemu'
+    exit
+end
+
 
 Vagrant.configure("2") do |config|
 
@@ -26,14 +66,15 @@ Vagrant.configure("2") do |config|
   config.vm.define 'fedora' do |fedora|
 	  config.vm.provider "qemu" do |qe|
 		  qe.name = 'fedora'
-		  qe.qemu_dir = '/opt/homebrew/share/qemu'
+		  qe.qemu_dir = "#{qemu_dir}"
 		  qe.arch = 'aarch64'
-		  qe.machine = 'virt,accel=hvf,highmem=on'
+		  qe.machine = "virt,accel=#{accelerator},highmem=on"
 		  qe.smp = cpus
 		  qe.memory = memory
 		  qe.cpu = "host"
 		  qe.net_device = "virtio-net-pci"
 		  qe.ssh_port = ssh_port
+		  # uncomment if you need vnc
 		  #qe.extra_netdev_args = "hostfwd=tcp::5900-:5900"
 
           qe.extra_qemu_args = "-fsdev local,id=cur_dir_dev,path=#{cur_dir},security_model=mapped-xattr

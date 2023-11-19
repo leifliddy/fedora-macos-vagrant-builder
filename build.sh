@@ -138,11 +138,12 @@ make_image() {
 
     ###### post-install cleanup ######
     echo -e '\n### Cleanup'
-    rm -f $mnt_image/init
     rm -rf $mnt_image/lost+found/
     rm -rf $mnt_image/boot/lost+found/
-
-    rm -f $mnt_image/var/lib/systemd/random-seed
+    rm -f  $mnt_image/etc/dracut.conf.d/initial-boot.conf
+    rm -rf $mnt_image/image.creation
+    rm -f  $mnt_image/init
+    rm -f  $mnt_image/var/lib/systemd/random-seed
     sed -i '/GRUB_DISABLE_OS_PROBER=true/d' $mnt_image/etc/default/grub
 
     # not sure how/why a mnt_image/root/fedora-macos-asahi-qemu directory is being created

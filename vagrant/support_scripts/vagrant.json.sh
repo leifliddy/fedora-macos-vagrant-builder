@@ -2,9 +2,7 @@
 
 set -e
 
-
 echo -e "\n############# running $(basename "$0") #############"
-
 cur_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 ## url examples
@@ -13,7 +11,7 @@ cur_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 usage=$(echo -e "Usage $(basename "$0") --name [IMAGE)\n
   -n, --name        name of the vagrant box
-  -u, --url         can be the box name or a url path
+  -u, --url         can be the box name or a url path (it's the box name by default)
       --help        display this help and exit\n
 ")
 
@@ -32,12 +30,14 @@ done
 [[ -z $vbox_image_name ]] && echo "$usage" && exit
 [[ $(echo $vbox_image_name | grep -E '\.box$') ]] && vbox_name=$vbox_image_name || vbox_name="${vbox_image_name}.box"
 json_name="${vbox_image_name}.json"
+date=$(date '+%Y%m%d')
 vagrant_box_path="$(dirname $cur_dir)/$vbox_name"
 
 [[ ! -f $vagrant_box_path ]] && echo "$vagrant_box_path doesn't exist" && exit
+checksum_sha256=$(sha256sum $vagrant_box_path | awk '{print $1}')
 [[ -z $url ]] && url=$vbox_name
 echo "vbox_image_name: $vbox_image_name"
-echo "url: $url"
+echo "url:  $url"
 
 cat <<EOF > $json_name
 {
@@ -58,4 +58,4 @@ cat <<EOF > $json_name
 }
 EOF
 
-echo -e "\nwrote: $json_name"
+echo -e "json: $json_name"
