@@ -55,6 +55,7 @@ which means after running `sudo vagrant ...` the first time -- every subsequent 
 The `Vagrantfile` will prompt you to run `vagrant` commands with `sudo` on **macos** systems  
 
 So to `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
+**Note:** `sudo` is not needed if running on a Linux system  
 ```
 sudo vagrant up
 sudo vagrant ssh 
