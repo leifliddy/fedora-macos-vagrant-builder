@@ -25,7 +25,7 @@ Then just run the following to download and start a Fedora 39 vagrant box:
 ```
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
-cd vagrantwith-fedora
+cd vagrant-fedora
 curl https://leifliddy.com/vagrant.sh | sh
 ```
 **Note:** if you ever decide to remove this Vagrantbox in the future   
