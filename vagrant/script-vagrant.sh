@@ -48,7 +48,7 @@ done
 
 [[ $web_url = true ]] && url="--url $web_url_box"
 
-# create vagrant box]
+# create vagrant box
 $cur_dir/support_scripts/create_box.sh $fedora_hdd $box_name
 
 # create json file
