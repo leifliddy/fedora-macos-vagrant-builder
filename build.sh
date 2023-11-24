@@ -31,9 +31,9 @@ usage=$(echo -e "Usage $(basename "$0") [OPTION]\n
 while [ $# -gt 0 ]
 do
     case $1 in
-    --help) echo "$usage"; exit;;
-    -c|--compress) compress='-c ';;
-    (*) break;;
+        --help) echo "$usage"; exit;;
+        -c|--compress) compress='-c ';;
+        (*) break;;
     esac
     shift
 done
