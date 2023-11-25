@@ -15,8 +15,6 @@ fi
 [ ! -d $mnt_image ] && mkdir $mnt_image
 [ ! -d mkosi.cache ] && mkdir mkosi.cache
 [ ! -d mkosi.output ] && mkdir mkosi.output
-[ ! -d mnt_image ] && mkdir mnt_image
-
 
 usage=$(echo -e "Usage $(basename "$0") [OPTION]\n
   -c, --compress    compress the fedora.qcow2 image\n
