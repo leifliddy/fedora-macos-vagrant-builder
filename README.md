@@ -97,7 +97,9 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 
 ## To mount/umount/ the fedora.raw image  
 ```
-./build {mount, umount, chroot}
+./build mount
+./build chroot
+./build umount
 This is in incredibly useful feature that lets you make changes to the raw image on the fly  
 # this will mount/umount fedora.raw to/from mnt_image/ 
 # the chroot option will mount and arch-chroot you into mnt_image/
