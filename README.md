@@ -47,7 +47,8 @@ vagrant ssh fedora
 ssh -l root -i $(vagrant ssh-config | grep IdentityFile | awk '{print $2}') -p 3333 localhost
 ```
 
-**Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
+**Note:** I've encou# the chroot option will mount and arch-chroot you into mnt_image/
+ntered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
 
 **Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
 which means after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
@@ -100,10 +101,10 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 ./build mount
 ./build chroot
 ./build umount
-This is in incredibly useful feature that lets you make changes to the raw image on the fly  
-# this will mount/umount fedora.raw to/from mnt_image/ 
-# the chroot option will mount and arch-chroot you into mnt_image/
 ```
+This is in incredibly useful feature that lets you make changes to the raw image on the fly  
+This will mount/chroot/umount fedora.raw to/from mnt_image/  
+
 If the event that you make changes to the raw image in this manner   
 run the following to generate a new `fedora.qcow2` image  
 ```qemu-img convert -f raw -O qcow2 mkosi.output/fedora.raw qemu/fedora.qcow2```
