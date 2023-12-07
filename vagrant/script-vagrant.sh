@@ -71,5 +71,5 @@ if [[ -n $vbox_exists ]]; then
     echo -e "\nnote: the vagrant box $vbox_image_name is already installed\n$vbox_exists"
 else
     echo -e "\nyou can install the $vbox_image_name box with either"
-    echo "vagrant box add ${vbox_image_name}.json\nor vagrant box add ${vbox_image_name}.box"
+    echo -e "vagrant box add ${vbox_image_name}.json\nor vagrant box add ${vbox_image_name}.box"
 fi
