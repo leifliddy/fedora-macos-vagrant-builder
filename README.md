@@ -47,8 +47,7 @@ vagrant ssh fedora
 ssh -l root -i $(vagrant ssh-config | grep IdentityFile | awk '{print $2}') -p 3333 localhost
 ```
 
-**Note:** I've encou# the chroot option will mount and arch-chroot you into mnt_image/
-ntered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
+**Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
 
 **Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
 which means after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
