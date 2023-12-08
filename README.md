@@ -18,7 +18,7 @@ vagrant plugin install vagrant-qemu
 ```
 Ensure these package are installed on `Fedora`:   
 ```
-dnf install kpartx qemu-img qemu-system-aarch64 vagrant
+dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
 ```
 Then just run the following to download and start a Fedora 39 vagrant box:
@@ -71,7 +71,7 @@ You should now be chroot'd into your Fedora Asahi Remix install
 The image can be built via `mkosi` or via booting and installing via an `iso` image
 
 ## Fedora Packages needed to build and run the image  
-```dnf install arch-install-scripts bubblewrap mkosi mtools qemu-img qemu-system-aarch64```
+```dnf install arch-install-scripts bubblewrap kpartx mkosi mtools qemu-img qemu-system-aarch64```
 
 ## macos Packages needed to run the image      
 ```brew install qemu```
