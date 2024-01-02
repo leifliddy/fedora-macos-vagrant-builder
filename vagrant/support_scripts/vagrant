@@ -1,8 +1,6 @@
 #!/bin/bash
 
-if (( $EUID != 0 )); then
-    sudo='sudo'
-fi
+[[ $EUID != 0 ]] || [[ $(uname -s) != Linux ]] && sudo='sudo'
 
 vagrant_box='fedora_39'
 vagrant_name='fedora'
