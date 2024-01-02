@@ -21,7 +21,6 @@ upgrade_qemu_firmware() {
             echo "find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd"
             local_copy=$(find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd)
             if [ -f $local_copy ]; then
-                echo "$sudo cp $qemu_dir/edk2-aarch64-code.fd $local_copy"
                 $sudo cp $qemu_dir/edk2-aarch64-code.fd $local_copy
             fi
         fi
