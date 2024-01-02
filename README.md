@@ -40,27 +40,21 @@ You should now see the `fedora_39` Vagrantbox installed
 [leif.liddy@m1 ~]$ vagrant box list
 fedora_39      (libvirt, 20231118)
 ```
-Use any of these methods to ssh in the `fedora` Vagrantbox   
+So to `ssh` and `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
 ```
-vagrant ssh 
-vagrant ssh fedora 
-ssh -l root -i $(vagrant ssh-config | grep IdentityFile | awk '{print $2}') -p 3333 localhost
-```
+./vagrant ssh
+chroot.asahi
 
-**Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- just something to be aware of  
+**Note:** I've encountered a few instances where `vagrant halt` didn't kill the VagrantBox -- in that case run `./vagrant kill`
 
 **Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
 which means after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
 
-The `Vagrantfile` will prompt you to run `vagrant` commands with `sudo` on **macos** systems  
+The `Vagrantfile` config and `vagrant` scripts will run the sudo comands automatically (on **macos** systems  ) -- you'll just need to enter you sudo password  
 
 **Note:** `sudo` is not needed if running on a Linux system  
 
-So to `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
-```
-sudo vagrant up
-sudo vagrant ssh 
-chroot.asahi
+
 ```
 You should now be chroot'd into your Fedora Asahi Remix install  
 
