@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if (( $EUID != 0 )); then
+    sudo='sudo'
+fi
 
 # this let's you console into a qemu Vagrantbox to troubleshoot errors occuring at boot time
 # run 'vagrant up' and then immediately run ./serial-connect.sh in another window
@@ -35,11 +38,9 @@ socket="$HOME/.vagrant.d/tmp/vagrant-qemu/$vm_id/qemu_socket_serial"
 #[[ $debug ]] && echo -e "running:\nstty raw && nc -U $socket"
 #stty raw && nc -U $socket
 
-[[ $debug ]] && echo -e "running:\nstty -icanon -echo && nc -U $socket"
-stty -icanon -echo && nc -U $socket
+[[ $debug ]] && echo -e "running:\nstty -icanon -echo && $sudo nc -U $socket"
+stty -icanon -echo && $sudo nc -U $socket
 
-# hit ctrl-c to exit from the console
-# once you're back to the macos terminal type:
-# stty sane
+# return stty setting to default values
+stty sane
 # to return the tty setting back to their original state
-
