@@ -7,23 +7,24 @@ fi
 vagrant_box='fedora_39'
 vagrant_name='fedora'
 
-upgrade_820_firmware() {
-
+# update qemu 820 firmware to 821 firmware
+upgrade_qemu_firmware() {
     # qemu 820 uses an outdated edk2 firmware version -- the new firmware version will be released with qemu version 8.2.1
-    # after that time -- this logic can be deleted
-    qemu_820_dir='/opt/homebrew/Cellar/qemu/8.2.0/share/qemu'
-    md5_820='5f0854313a5795a2628f962b0a5a19b'
-    current_md5_edk2=$(md5 -q $qemu_820_dir/edk2-aarch64-code.fd)
+    # after that time -- this entire next block can be deleted
+    qemu_dir='/opt/homebrew/Cellar/qemu/8.2.0/share/qemu'
+    md5_sum_edk_file_correct='95f0854313a5795a2628f962b0a5a19b'
+    md5_sum_edk_file_actual=$(md5 -q $qemu_dir/edk2-aarch64-code.fd)
 
-    if [ -f $qemu_820_dir/edk2-aarch64-code.fd ]; then
-        if [ $current_md5_edk2 == $md5_820 ]; then
-            cp $qemu_820_dir/edk2-aarch64-code.fd $qemu_820_dir/edk2-aarch64-code.fd.orig
-            curl https://leifliddy.com/vagrant/edk2-aarch64-code.fd -O --output-dir $qemu_820_dir
+    if [ -f $qemu_dir/edk2-aarch64-code.fd ]; then
+        if [ $md5_sum_edk_file_correct != $md5_sum_edk_file_actual ]; then
+            curl https://leifliddy.com/vagrant/edk2-aarch64-code.fd -O --output-dir $qemu_dir/
+            echo "find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd"
             local_copy=$(find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd)
             if [ -f $local_copy ]; then
-                $sudo cp $qemu_820_dir/edk2-aarch64-code.fd $local_copy
+                echo "$sudo cp $qemu_dir/edk2-aarch64-code.fd $local_copy"
+                $sudo cp $qemu_dir/edk2-aarch64-code.fd $local_copy
             fi
-        fi   
+        fi
     fi
 }
 
@@ -42,33 +43,28 @@ console() {
 
     [[ ! -S $socket ]] && echo "$vm_name is not currently running" && exit
 
-    [[ -n $debug ]] && echo -e "$sudo nc -U $socket"
+    [[ $debug ]] && echo -e "$sudo nc -U $socket"
     stty -icanon -echo && $sudo nc -U $socket
 
-    # return the stty values back to their original state
     stty sane
 }
 
 while [ $# -gt 0 ]
 do
     case $1 in
-    up) $sudo vagrant up && upgrade_820_firmware;;
+    up) upgrade_qemu_firmware && $sudo vagrant up;;
     halt) $sudo vagrant halt && exit;;
     reload) $sudo vagrant reload;;
     remove) $sudo vagrant box remove $vagrant_box && exit;;
-    destroy) $sudo vagrant destroy $vagrant_box --force && exit;;
-    --debug|debug) debug=1;;    
+    destroy) $sudo vagrant destroy $vagrant_name --force && exit;;
+
+    -d|--debug|debug) debug=1;;
     -k|--kill|kill) $sudo ps -ef | grep .vagrant/machines/$vagrant_name/qemu | grep -v grep | awk '{print $2}' | xargs $sudo kill -9 && exit ;;
-    --ssh|ssh) $sudo vagrant ssh $vagrant_name && exit;; 
-    -console|console) console $vagrant_name && exit;;    
+    --ssh|ssh) $sudo vagrant ssh $vagrant_name && exit;;
+    -console|console) console $vagrant_name && exit;;
     (*) break;;
     esac
     shift
 done
 
-
 shift $((OPTIND-1))
-
-
-    # this let's you console into a qemu Vagrantbox to troubleshoot errors occuring at boot time
-    # run 'vagrant up' and then immediately run ./serial-connect.sh in another window   
