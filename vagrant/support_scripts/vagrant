@@ -8,7 +8,7 @@ vagrant_name='fedora'
 # update qemu 820 firmware to 821 firmware
 upgrade_qemu_firmware() {
     # qemu 820 uses an outdated edk2 firmware version -- the new firmware version will be released with qemu version 8.2.1
-    # after that time -- this entire fuynction can be removed
+    # after that time -- this entire function can be removed
     qemu_dir='/opt/homebrew/Cellar/qemu/8.2.0/share/qemu'
     md5_sum_edk_file_correct='95f0854313a5795a2628f962b0a5a19b'
     md5_sum_edk_file_actual=$(md5 -q $qemu_dir/edk2-aarch64-code.fd)
