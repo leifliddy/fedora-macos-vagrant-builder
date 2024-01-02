@@ -41,7 +41,8 @@ You should now see the `fedora_39` Vagrantbox installed
 fedora_39      (libvirt, 20231118)
 ```
 So to `ssh` and `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
-```
+```https://github.com/leifliddy/fedora-macos-vagrant-builder?tab=readme-ov-file#using-vagrantsh
+
 ./vagrant ssh
 chroot.asahi
 
@@ -163,6 +164,7 @@ To exit from the `chroot` environment, simply type `ctrl+d` or `exit`
 `vagrant.sh` enforces `sudo`, so it's a bit more convenient then having to type 'sudo vagrant` for every command
 ```
 ./vagrant up       # brings up the vagrant box
+./vagrant ssh      # ssh into the vagrant box
 ./vagrant halt     # stop the vagrant box
 ./vagrant reload   # restarts the vagrant box
 ./vagrant destroy  # destroys the vagrant box instance
