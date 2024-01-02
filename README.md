@@ -161,6 +161,20 @@ Which can help you rescue a Fedora Asahi Remix install:
 To exit from the `chroot` environment, simply type `ctrl+d` or `exit`
 
 2. `umount.asahi` will unmount the internal partitions from `/mnt`
-<br/>
+<br/>/serial-connect.sh
 
 <img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/40d2268b-ef69-4045-8a66-ea47e11507bb" width=65%>
+
+## Using vagrant.sh
+`vagrant.sh` enforces `sudo`, so it's a bit more convenient then having to type 'sudo vagrant` for every command
+```
+./vagrant up       # brings up the vagrant box
+./vagrant halt     # stop the vagrant box
+./vagrant reload   # restarts the vagrant box
+./vagrant destroy  # destroys the vagrant box instance
+./vagrant remove   # removes the vagrant box image
+./vagrant kill     # kills any running instance of the vagrant box (only use if ./vagrant halt doens't work)
+./vagrant console  # this let's you console into a qemu Vagrantbox to troubleshoot errors occuring at boot time
+                   # run './vagrant up' and then immediately run ./vagrant console in another window
+                   # to view the console
+```
