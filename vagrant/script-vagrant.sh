@@ -30,16 +30,35 @@ kill_vagrant_fedora() {
     done
 }
 
+usage() {
+cat << EOF
+Usage: ./script-vagrant.sh [OPTION]
+
+  -R, --recursive            list subdirectories recursively
+  -w, --url                  modify the url in $vbox_image_name.json with $web_url_box
+  -k, --kill                 kill every instance of this box that\'s running
+  -d, --destroy              stops and deletes all traces of the vagrant machine
+  -h, --halt                 stops the vagrant machinestops the vagrant machinev
+  -l, --list                 list all available vagrant boxes
+      --remove               remove the vagrant box $vbox_image_name (if it exists)
+  -r, --reload               restarts vagrant machine, loads new Vagrantfile configuration
+  -u, --up                   starts and provisions the vagrant environment
+
+      --help        display this help and exit
+EOF
+}
+
 while [ $# -gt 0 ]
 do
     case $1 in
-    --help) echo "$usage"; exit;;
+    --help) usage; exit;;
     -w|--url) web_url=true;;
     -k|--kill) kill_vagrant_fedora; exit;;
     -d|--destroy) vagrant halt; vagrant destroy -f; exit;;
     -h|--halt) vagrant halt; exit;;
     -l|--list) vagrant box list; exit;;
     -r|--reload) vagrant reload; exit;;
+    --remove) vagrant box remove $vbox_image_name; exit;;
     -u|--up) vagrant up; exit;;
     (*) break;;
     esac
@@ -70,6 +89,8 @@ vbox_exists=$(vagrant box list | grep "^${vbox_image_name} ")
 if [[ -n $vbox_exists ]]; then
     echo -e "\nnote: the vagrant box $vbox_image_name is already installed\n$vbox_exists"
 else
-    echo -e "\nyou can install the $vbox_image_name box with either"
-    echo -e "vagrant box add ${vbox_image_name}.json\nor vagrant box add ${vbox_image_name}.box"
+    echo -e "\nyou can install $box_name with either:\n"
+    echo -e "vagrant box add ${vbox_image_name}.json\nor\nvagrant box add $box_name"
+    echo -e "\n\n**please note that when installing via the json file, the url in ${vbox_image_name}.json\nwill be used as the location to download the image from"
+
 fi

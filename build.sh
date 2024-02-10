@@ -1,10 +1,12 @@
 #!/bin/bash
 
 set -e
+#set -x
 
 mnt_image="$(pwd)/mnt_image"
 mkosi_output='mkosi.output'
 disk_raw="$mkosi_output/fedora.raw"
+mkosi_supported_version=20
 
 if [ "$(whoami)" != 'root' ]; then
     echo "You must be root to run this script."
@@ -21,10 +23,9 @@ usage=$(echo -e "Usage $(basename "$0") [OPTION]\n
       --help        display this help and exit\n
 ")
 
-
 # to compress the fedora.qcow2 image
 # don't use this options if the goal is to create a vagrant box
-# as the resulting vagrant box will mysteriously ens up being larger in size (you read that right)
+# as the resulting vagrant box will mysteriously end up being larger in size (yes, you read that right)
 
 while [ $# -gt 0 ]
 do
@@ -36,6 +37,20 @@ do
     shift
 done
 
+
+check_mkosi() {
+    mkosi_cmd=$(command -v mkosi || true)
+    [[ -z $mkosi_cmd ]] && echo 'mkosi is not installed...exiting' && exit
+    mkosi_version=$(mkosi --version | awk '{print $2}' | sed 's/\..*$//')
+
+    if [[ $mkosi_version -ne $mkosi_supported_version ]]; then
+        echo "mkosi path:    $mkosi_cmd"
+        echo "mkosi version: $mkosi_version"
+        echo -e "\nthis project was built with mkosi version $mkosi_supported_version"
+        echo "please install that version to continue"
+        exit
+    fi
+}
 mkosi_create_rootfs() {
     umount_image
     mkosi clean
@@ -43,13 +58,13 @@ mkosi_create_rootfs() {
 }
 
 mount_image() {
-    umount_image silent# mounts mkosi.rootfs.raw from mnt_image/
+    umount_image silent # mounts mkosi.rootfs.raw from mnt_image/
     echo '### Mounting image partitions'
     kpartx -a $disk_raw
     get_partition_devices
     [[ -z "$(findmnt -n $mnt_image)" ]] && mount $root_part $mnt_image
-    [[ -z "$(findmnt -n $mnt_image/efi)" ]] && mount $efi_part $mnt_image/efi
     [[ -z "$(findmnt -n $mnt_image/boot)" ]] && mount $boot_part $mnt_image/boot
+    [[ -z "$(findmnt -n $mnt_image/boot/efi)" ]] && mount $efi_part $mnt_image/boot/efi
     systemctl daemon-reload
 }
 
@@ -57,7 +72,7 @@ umount_image() {
     set +e
     # unmounts mkosi.rootfs.raw from mnt_image/
     [[ $1 != 'silent' ]] && echo '### Unmounting image partitions'
-    [[ "$(findmnt -n $mnt_image/efi)" ]] && umount $mnt_image/efi
+    [[ "$(findmnt -n $mnt_image/boot/efi)" ]] && umount $mnt_image/boot/efi
     [[ "$(findmnt -n $mnt_image/boot)" ]] && umount $mnt_image/boot
     [[ "$(findmnt -n $mnt_image)" ]] && umount $mnt_image
     [[ -f $disk_raw ]] && [[ -n "$(kpartx -l $disk_raw)" ]] && kpartx -d $disk_raw
@@ -118,18 +133,21 @@ make_image() {
     systemctl daemon-reload
 
     #need to generate a machine-id so that we can run kernel-install
-    echo -e '\n### Generating a new machine-id'
-    rm -f $mnt_image/etc/machine-id
-    chroot $mnt_image dbus-uuidgen --ensure=/etc/machine-id
-    chroot $mnt_image echo "KERNEL_INSTALL_MACHINE_ID=$(cat $mnt_image/etc/machine-id)" > $mnt_image/etc/machine-info
+    if [ -f /etc/machine-id ] && [[ "$(grep '^uninitialized$' /etc/machine-id)" ]]; then
+        echo -e '\n### Generating a new machine-id'
+        rm -f $mnt_image/etc/machine-id
+        chroot $mnt_image dbus-uuidgen --ensure=/etc/machine-id
+        chroot $mnt_image echo "KERNEL_INSTALL_MACHINE_ID=$(cat $mnt_image/etc/machine-id)" > $mnt_image/etc/machine-info
+    fi
 
     echo -e '\n### Generating GRUB config'
     sed -i "s/BOOT_UUID_PLACEHOLDER/$boot_uuid/" $mnt_image/boot/efi/EFI/fedora/grub.cfg
     arch-chroot $mnt_image grub2-mkconfig -o /boot/grub2/grub.cfg
 
-    # run kernel-install
-    echo '### Running kernel-install'
-    arch-chroot $mnt_image /image.creation/kernel.install.sh
+    if [ -f $mnt_image/image.creation/kernel.install.sh ]; then
+        echo '### Running kernel-install'
+        arch-chroot $mnt_image /image.creation/kernel.install.sh
+    fi
 
     # add vim alias to root bashrc
     echo "alias vi='vim'" >> /root/.bashrc
@@ -142,6 +160,7 @@ make_image() {
     rm -rf $mnt_image/image.creation
     rm -f  $mnt_image/init
     rm -f  $mnt_image/var/lib/systemd/random-seed
+    [[ -d $mnt_image/efi ]] && rm -rf $mnt_image/efi
     sed -i '/GRUB_DISABLE_OS_PROBER=true/d' $mnt_image/etc/default/grub
 
     # not sure how/why a mnt_image/root/fedora-macos-asahi-qemu directory is being created
@@ -158,6 +177,8 @@ make_image() {
     echo 'cd vagrant && ./script-vagrant.sh'
     echo -e '\n### Done'
 }
+
+check_mkosi
 
 if [[ $(command -v getenforce) ]] && [[ "$(getenforce)" = "Enforcing" ]]; then
     setenforce 0
