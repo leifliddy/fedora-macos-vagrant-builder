@@ -5,26 +5,6 @@
 vagrant_box='fedora_39'
 vagrant_name='fedora'
 
-# update qemu 820 firmware to 821 firmware
-upgrade_qemu_firmware() {
-    # qemu 820 uses an outdated edk2 firmware version -- the new firmware version will be released with qemu version 8.2.1
-    # after that time -- this entire function can be removed
-    qemu_dir='/opt/homebrew/Cellar/qemu/8.2.0/share/qemu'
-    md5_sum_edk_file_correct='95f0854313a5795a2628f962b0a5a19b'
-    md5_sum_edk_file_actual=$(md5 -q $qemu_dir/edk2-aarch64-code.fd)
-
-    if [ -f $qemu_dir/edk2-aarch64-code.fd ]; then
-        if [ $md5_sum_edk_file_correct != $md5_sum_edk_file_actual ]; then
-            curl https://leifliddy.com/vagrant/edk2-aarch64-code.fd -O --output-dir $qemu_dir/
-            echo "find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd"
-            local_copy=$(find .vagrant/machines/$vagrant_name/qemu/ | grep edk2-aarch64-code.fd)
-            if [ -f $local_copy ]; then
-                $sudo cp $qemu_dir/edk2-aarch64-code.fd $local_copy
-            fi
-        fi
-    fi
-}
-
 console() {
     echo ".vagrant/machines/$vagrant_name/qemu/id"
     id_file=".vagrant/machines/$vagrant_name/qemu/id"
@@ -49,7 +29,7 @@ console() {
 while [ $# -gt 0 ]
 do
     case $1 in
-    up) upgrade_qemu_firmware && $sudo vagrant up;;
+    up) $sudo vagrant up;;
     halt) $sudo vagrant halt && exit;;
     reload) $sudo vagrant reload;;
     remove) $sudo vagrant box remove $vagrant_box && exit;;
