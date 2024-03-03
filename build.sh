@@ -133,7 +133,7 @@ make_image() {
     systemctl daemon-reload
 
     #need to generate a machine-id so that we can run kernel-install
-    if [ -f $mnt_image/etc/machine-id ] && [[ "$(grep '^uninitialized$' $mnt_image/etc/machine-id)" ]]; then
+    if [ ! -f $mnt_image/etc/machine-id ] || [[ "$(grep '^uninitialized$' $mnt_image/etc/machine-id)" ]]; then
         echo -e '\n### Generating a new machine-id'
         rm -f $mnt_image/etc/machine-id
         chroot $mnt_image dbus-uuidgen --ensure=/etc/machine-id
