@@ -72,12 +72,12 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 - The root password is **fedora**
 - Once the VM is running you can connect to it via ssh port 2222 ie ```ssh -l root -p 2222 m1```  
 - ```qemu-user-static``` is needed if building the image on a ```non-aarch64``` system  
-- This project is based on `mkosi v19` which matches the current version of `mkosi` in the `F39` repo  
+- This project is based on `mkosi v20` which matches the current version of `mkosi` in the `F39` repo  
   https://src.fedoraproject.org/rpms/mkosi/  
   However....`mkosi` is updated so quickly that it's difficult to keep up at times (I have several projects based on `mkosi`)  
   I'll strive to keep things updated to the latest version supported in Fedora  
   If needed, you can always install a specific version via pip  
-  `python3 -m pip install --user git+https://github.com/systemd/mkosi.git@v19`
+  `python3 -m pip install --user git+https://github.com/systemd/mkosi.git@v20`
 
 ## To build the image via `mkosi`
 ```# sudo is needed to mount the linux partitions -- but it also jacks with the vagrant permissions # which meants after running vagrant with sudo -- every subsequent vagrant command needs to run with sudo  # so now run 
