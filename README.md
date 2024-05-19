@@ -21,7 +21,7 @@ Ensure these package are installed on `Fedora`:
 dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
 ```
-Then just run the following to download and start a Fedora 39 vagrant box:
+Then just run the following to download and start a Fedora 40 vagrant box:
 ```
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
