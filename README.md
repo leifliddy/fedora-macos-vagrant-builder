@@ -35,10 +35,10 @@ Ensure you remove this subdirectory
 [leif.liddy@m1 vagrant-fedora]$ rm -rf .vagrant/
 ```
 
-You should now see the `fedora_39` Vagrantbox installed
+You should now see the `fedora_40` Vagrantbox installed
 ```
 [leif.liddy@m1 ~]$ vagrant box list
-fedora_39      (libvirt, 20231118)
+fedora_40      (libvirt, 20240519)
 ```
 So to `ssh` and `chroot` into your Fedora Asahi Remix installation (when running on `macos`:   
 ```
@@ -119,13 +119,13 @@ cd vagrant
 This script is only supported on Linux at the moment  
 The output will produce two files
 ```
-fedora_39.box
-fedora_39.json
+fedora_40.box
+fedora_40.json
 ```
 Although you can add a vagrant box directly -- it's beter add it via the json file  
 To add a new vagrant box 
 ```
-vagrant box add fedora_39.json
+vagrant box add fedora_40.json
 ```
 
 ## To perform a Fedora installation via an `iso` image
