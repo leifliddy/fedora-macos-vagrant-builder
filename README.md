@@ -4,7 +4,7 @@ Builds and runs minimal Fedora `qemu` image that can be converted into a `vagran
 
 This can be used to rescue a Fedora Asahi Linux system from within macos  
 
-<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/293087dd-384b-4566-a4c2-6431596f7c31" width=65%>
+<img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/9b93c15c-11eb-44fd-a602-2c8efc26024b" width=65%>
 <br/>
 <br/>
 
