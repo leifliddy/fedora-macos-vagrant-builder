@@ -1,8 +1,10 @@
 #!/bin/bash
 
-# -w will point the url to https://leifliddy.com/vagrant/fedora_39.box vs fedora_39.box
+#set -x
+
+# -w will point the url to https://leifliddy.com/vagrant/fedora_40.box vs fedora_40.box
 image_name='fedora.qcow2'
-vbox_image_name='fedora_39'
+vbox_image_name='fedora_40'
 box_name="${vbox_image_name}.box"
 web_url_box="https://leifliddy.com/vagrant/$box_name"
 kill='kill'
@@ -74,14 +76,15 @@ $cur_dir/support_scripts/create_box.sh $fedora_hdd $box_name
 $cur_dir/support_scripts/vagrant.json.sh --name $vbox_image_name $url
 
 # these files names are hard-coded -- need to submit a PR for that
-# https://github.com/ppggff/vagrant-qemu/blob/4d85f60032bf0a4ef3f7d26f4a102fce1f3213f2/lib/vagrant-qemu/driver.rb#L158C7-L158C7
+# https://github.com/ppggff/vagrant-qemu/blob/master/lib/vagrant-qemu/driver.rb
 
 
 [[ ! -f 'support_scripts/edk2-aarch64-code.fd' ]] && cp /usr/share/edk2/aarch64/QEMU_EFI-silent-pflash.raw support_scripts/edk2-aarch64-code.fd
 [[ ! -f 'support_scripts/edk2-arm-vars.fd' ]] && cp /usr/share/edk2/aarch64/vars-template-pflash.raw support_scripts/edk2-arm-vars.fd
 
+libvirtd_exists=$(systemctl list-unit-files | grep libvirtd.service)
 is_active=$(systemctl is-active libvirtd)
-[[ $is_active != 'active' ]] && systemctl restart libvirtd
+[[ -n $libvirtd_exists ]] && [[ $is_active != 'active' ]] && systemctl restart libvirtd
 
 
 echo -e "\n#################### summary ######################"

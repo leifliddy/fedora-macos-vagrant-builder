@@ -1,6 +1,6 @@
 # Fedora qemu Asahi image
 Builds and runs minimal Fedora `qemu` image that can be converted into a `vagrant` box  
-**Note:** Currently this image must be built on a `Fedora 39` system  
+**Note:** Currently this image must be built on a `Fedora 40` system  
 
 This can be used to rescue a Fedora Asahi Linux system from within macos  
 
@@ -72,16 +72,16 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 - The root password is **fedora**
 - Once the VM is running you can connect to it via ssh port 2222 ie ```ssh -l root -p 2222 m1```  
 - ```qemu-user-static``` is needed if building the image on a ```non-aarch64``` system  
-- This project is based on `mkosi v20` which matches the current version of `mkosi` in the `F39` repo  
+- This project is based on `mkosi v22` which matches the current version of `mkosi` in the `F40` repo  
   https://src.fedoraproject.org/rpms/mkosi/  
   However....`mkosi` is updated so quickly that it's difficult to keep up at times (I have several projects based on `mkosi`)  
   I'll strive to keep things updated to the latest version supported in Fedora  
   If needed, you can always install a specific version via pip  
-  `python3 -m pip install --user git+https://github.com/systemd/mkosi.git@v20`
+  `python3 -m pip install --user git+https://github.com/systemd/mkosi.git@v22`
 
 ## To build the image via `mkosi`
 ```# sudo is needed to mount the linux partitions -- but it also jacks with the vagrant permissions # which meants after running vagrant with sudo -- every subsequent vagrant command needs to run with sudo  # so now run 
-# This needs to be built on a Fedora 39 system
+# This needs to be built on a Fedora 40 system
 ./build.sh
 # this will create the following images:
 1. mkosi.output/fedora.raw
@@ -131,9 +131,9 @@ vagrant box add fedora_39.json
 ## To perform a Fedora installation via an `iso` image
 Simply run the following on either a `linux` or `macos` system
 ```
-git clone https://github.com/leifliddy/fedora-macos-asahi-qemu.git  
-cd qemu/    
-./script-qemu.sh --cdrom  
+git clone https://github.com/leifliddy/fedora-macos-asahi-qemu.git
+cd qemu/
+./script-qemu.sh --cdrom
 This will automatically download and boot from the latest `Fedora-Everything-netinst-aarch64` iso
 To perform a graphical install, choose the 1) Start VNC option and connect a vnc client to port :5901
 ```

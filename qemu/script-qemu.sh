@@ -9,8 +9,8 @@ memory='2048M'
 # the forwarded ssh port used to access the Fedora VM from the host
 ssh_port_host=2222
 cur_dir=$(pwd)
-fedora_iso_base_url='https://dl.fedoraproject.org/pub/fedora/linux/development/39/Everything/aarch64/iso/'
-fedora_iso='Fedora-Everything-netinst-aarch64-39.iso'
+fedora_iso_base_url='https://dl.fedoraproject.org/pub/fedora/linux/development/40/Everything/aarch64/iso/'
+fedora_iso='Fedora-Everything-netinst-aarch64-40.iso'
 
 wipe=''
 cdrom=''
@@ -67,8 +67,8 @@ fi
 if [[ -n $cdrom ]] && [[ ! -f $fedora_iso ]]; then
     # discovers the most recent version of $fedora_iso_base*.iso, where
     # $fedora_iso_base is $fedora_iso with .iso stripped.
-    # e.g. if fedora_iso_base == Fedora-Everything-netinst-aarch64-39.iso,
-    # it discovers the most recent Fedora-Everything-netinst-aarch64-39*.iso
+    # e.g. if fedora_iso_base == Fedora-Everything-netinst-aarch64-40.iso,
+    # it discovers the most recent Fedora-Everything-netinst-aarch64-40*.iso
     fedora_iso_image=$(curl $fedora_iso_base_url 2> /dev/null | grep $(basename -s .iso $fedora_iso) | sed -E 's|.*<a.*>\s*(.*)\s*</a>.*|\1|g' | grep -v manifest | sort -Vr | head -n 1)
     if [[ $fedora_iso_image == '' ]]; then
         echo 'Could not find a suitable version of the Fedora installer ISO.'
@@ -108,5 +108,5 @@ $sudo qemu-system-aarch64 \
     -device virtio-9p-pci,fsdev=cur_dir_dev,mount_tag=local_mnt \
     $linux_drives \
 
-# rhe reason that port 5901 is being forwarded is for new installs. When you boot from the iso
+# the reason that port 5901 is being forwarded is for new installs. When you boot from the iso
 # if you select the option to Start VNC -- then you'll be able to connect to it on port :5901

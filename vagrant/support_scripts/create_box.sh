@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -xu
+#set -x
 
 error() {
     local msg="${1}"

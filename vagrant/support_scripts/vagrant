@@ -2,7 +2,7 @@
 
 [[ $EUID != 0 ]] || [[ $(uname -s) != Linux ]] && sudo='sudo'
 
-vagrant_box='fedora_39'
+vagrant_box='fedora_40'
 vagrant_name='fedora'
 
 console() {
