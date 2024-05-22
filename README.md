@@ -11,12 +11,12 @@ This can be used to rescue a Fedora Asahi Linux system from within macos
 ## Deploying a pre-built Vagrant Box to rescue a Fedora Asahi Remix installation
 **Note:** Although this image can be run on both **macos** and **Fedora** systems -- the main use-case is **macos**  
 
-Ensure this packages/plugins are installed on `macos`:
+Ensure these packages/plugins are installed on `macos`:
 ```
 brew install qemu vagrant
 vagrant plugin install vagrant-qemu
 ```
-Ensure these package are installed on `Fedora`:   
+If running on Fedora, ensure these package are installed on `Fedora`:   
 ```
 dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
