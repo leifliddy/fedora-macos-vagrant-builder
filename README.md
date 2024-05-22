@@ -1,5 +1,5 @@
 # Fedora qemu Asahi image
-Builds and runs minimal Fedora `qemu` image that can be converted into a `vagrant` box  
+Builds a minimal Fedora `qemu` image that can be converted into a `vagrant` box  
 **Note:** Currently this image must be built on a `Fedora 40` system  
 
 This can be used to rescue a Fedora Asahi Linux system from within macos  
