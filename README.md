@@ -16,7 +16,7 @@ Ensure these packages/plugins are installed on `macos`:
 brew install qemu vagrant
 vagrant plugin install vagrant-qemu
 ```
-If running on Fedora, ensure these package are installed on `Fedora`:   
+If running on `Fedora`, ensure these package are installed on `Fedora`:   
 ```
 dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
