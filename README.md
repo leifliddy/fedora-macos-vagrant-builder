@@ -143,7 +143,8 @@ To perform a graphical install, choose the 1) Start VNC option and connect a vnc
 You can use it to transfer files to/from the VM  
 
 ## Rescuing a Fedora Asahi install  
-You obvioulsy need to run this qemu VM on an Apple Silicon mac that has Fedora Asahi Remix installed on it  
+You obvioulsy need to run this qemu VM on an Apple Silicon mac that has Fedora Asahi Remix installed on it  <br/>/serial-connect.sh
+
 Two helper scripts have been added to the qemu image  
 Which can help you rescue a Fedora Asahi Remix install:  
 ```
@@ -154,7 +155,6 @@ Which can help you rescue a Fedora Asahi Remix install:
 To exit from the `chroot` environment, simply type `ctrl+d` or `exit`
 
 2. `umount.asahi` will unmount the internal partitions from `/mnt`
-<br/>/serial-connect.sh
 
 <img src="https://github.com/leifliddy/fedora-macos-asahi-qemu/assets/12903289/40d2268b-ef69-4045-8a66-ea47e11507bb" width=65%>
 
