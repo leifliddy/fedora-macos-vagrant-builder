@@ -122,7 +122,7 @@ The output will produce two files
 fedora_40.box
 fedora_40.json
 ```
-Although you can add a vagrant box directly -- it's beter add it via the json file  
+Although you can add a vagrant box directly -- it's better add it via the json file  
 To add a new vagrant box 
 ```
 vagrant box add fedora_40.json
