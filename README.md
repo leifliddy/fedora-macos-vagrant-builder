@@ -143,7 +143,7 @@ To perform a graphical install, choose the 1) Start VNC option and connect a vnc
 You can use it to transfer files to/from the VM  
 
 ## Rescuing a Fedora Asahi install  
-You obvioulsy need to run this qemu VM on an Apple Silicon mac that has Fedora Asahi Remix installed on it  <br/>/serial-connect.sh
+You obvioulsy need to run this qemu VM on an Apple Silicon mac that has Fedora Asahi Remix installed on it  
 
 Two helper scripts have been added to the qemu image  
 Which can help you rescue a Fedora Asahi Remix install:  
