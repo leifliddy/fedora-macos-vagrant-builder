@@ -51,7 +51,7 @@ chroot.asahi
 **Note:** `sudo` is needed to mount the linux partitions on `macos` systems -- but it also messes with the vagrant permissions   
 which means after running `sudo vagrant ...` the first time -- every subsequent `vagrant` command needs to be run with `sudo vagrant`    
 
-The `Vagrantfile` config and `vagrant` scripts will run the sudo comands automatically (on **macos** systems  ) -- you'll just need to enter you sudo password  
+The `Vagrantfile` config and `vagrant` scripts will run the sudo comands automatically (on **macos** systems  ) -- you'll just need to enter your sudo password  
 
 **Note:** `sudo` is not needed if running on a Linux system  
 
