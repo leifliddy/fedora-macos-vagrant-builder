@@ -6,7 +6,7 @@ set -e
 mnt_image="$(pwd)/mnt_image"
 mkosi_output='mkosi.output'
 disk_raw="$mkosi_output/fedora.raw"
-mkosi_supported_version=22
+mkosi_supported_version=24
 
 if [ "$(whoami)" != 'root' ]; then
     echo "You must be root to run this script."
@@ -112,7 +112,7 @@ elif [[ $1 == 'chroot' ]]; then
     arch-chroot $mnt_image
     exit
 elif [[ -n $1 ]]; then
-    echo "$1 isn't a recogized option"
+    echo "$1 isn't a recognized option"
     exit
 fi
 
