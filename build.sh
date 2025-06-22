@@ -6,7 +6,7 @@ set -e
 mnt_image="$(pwd)/mnt_image"
 mkosi_output='mkosi.output'
 disk_raw="$mkosi_output/fedora.raw"
-mkosi_supported_version=24
+mkosi_max_supported_version=23
 
 if [ "$(whoami)" != 'root' ]; then
     echo "You must be root to run this script."
@@ -43,14 +43,15 @@ check_mkosi() {
     [[ -z $mkosi_cmd ]] && echo 'mkosi is not installed...exiting' && exit
     mkosi_version=$(mkosi --version | awk '{print $2}' | sed 's/\..*$//')
 
-    if [[ $mkosi_version -ne $mkosi_supported_version ]]; then
+    if [[ $mkosi_version -gt $mkosi_max_supported_version ]]; then
         echo "mkosi path:    $mkosi_cmd"
         echo "mkosi version: $mkosi_version"
-        echo -e "\nthis project was built with mkosi version $mkosi_supported_version"
-        echo "please install that version to continue"
+        echo -e "\nOnly mkosi version $mkosi_max_supported_version and below are supported"
+        echo "please install a compatible version to continue"
         exit
-    fi
+    fi    
 }
+
 mkosi_create_rootfs() {
     umount_image
     mkosi clean

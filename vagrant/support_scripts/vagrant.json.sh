@@ -6,8 +6,8 @@ echo -e "\n############# running $(basename "$0") #############"
 cur_dir="$( cd -- "$(dirname "$0")" >/dev/null 2>&1 ; pwd -P )"
 
 ## url examples
-# url='fedora_41.box' (default -- will be derived from --name if not specified)
-# url='https://leifliddy.com/vagrant/fedora_41.box'
+# url='fedora_42.box' (default -- will be derived from --name if not specified)
+# url='https://leifliddy.com/vagrant/fedora_42.box'
 
 usage=$(echo -e "Usage $(basename "$0") --name [IMAGE)\n
   -n, --name        name of the vagrant box

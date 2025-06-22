@@ -9,8 +9,8 @@ memory='2048M'
 # the forwarded ssh port used to access the Fedora VM from the host
 ssh_port_host=2222
 cur_dir=$(pwd)
-fedora_iso_base_url='https://dl.fedoraproject.org/pub/fedora/linux/releases/41/Everything/aarch64/iso/'
-fedora_iso='Fedora-Everything-netinst-aarch64-41-1.4.iso'
+fedora_iso_base_url='https://dl.fedoraproject.org/pub/fedora/linux/releases/42/Everything/aarch64/iso/'
+fedora_iso='Fedora-Everything-netinst-aarch64-42-1.1.iso'
 
 wipe=''
 cdrom=''
@@ -67,8 +67,8 @@ fi
 if [[ -n $cdrom ]] && [[ ! -f $fedora_iso ]]; then
     # discovers the most recent version of $fedora_iso_base*.iso, where
     # $fedora_iso_base is $fedora_iso with .iso stripped.
-    # e.g. if fedora_iso_base == Fedora-Everything-netinst-aarch64-41.iso,
-    # it discovers the most recent Fedora-Everything-netinst-aarch64-41*.iso
+    # e.g. if fedora_iso_base == Fedora-Everything-netinst-aarch64-42.iso,
+    # it discovers the most recent Fedora-Everything-netinst-aarch64-42*.iso
     fedora_iso_image=$(curl $fedora_iso_base_url 2> /dev/null | grep $(basename -s .iso $fedora_iso) | sed -E 's|.*<a.*>\s*(.*)\s*</a>.*|\1|g' | grep -v manifest | sort -Vr | head -n 1)
     if [[ $fedora_iso_image == '' ]]; then
         echo 'Could not find a suitable version of the Fedora installer ISO.'

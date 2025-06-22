@@ -7,7 +7,7 @@ require 'rexml/document'
 require 'etc'
 
 cur_dir   = __dir__
-vbox_name = 'fedora_41'
+vbox_name = 'fedora_42'
 ssh_port  = 3333
 cpus      = 4
 memory    = 2048
