@@ -1,6 +1,6 @@
 # Fedora qemu Asahi image
 Builds a minimal Fedora `qemu` image that can be converted into a `vagrant` box  
-**Note:** Currently this image must be built on a `Fedora 42` system
+**Note:** Currently this image must be built on a `Fedora 43` system
 
 This can be used to rescue a Fedora Asahi Linux system from within macos  
 
@@ -21,7 +21,7 @@ If running on `Fedora`, ensure these package are installed on `Fedora`:
 dnf install qemu-img qemu-system-aarch64 vagrant
 vagrant plugin install vagrant-qemu
 ```
-Then just run the following to download and start a Fedora 42 vagrant box:
+Then just run the following to download and start a Fedora 43 vagrant box:
 ```
 # A Vagrantfile should go in its own directory
 mkdir vagrant-fedora
@@ -35,10 +35,10 @@ Ensure you remove this subdirectory
 [leif.liddy@m1 vagrant-fedora]$ rm -rf .vagrant/
 ```
 
-You should now see the `fedora_42` Vagrantbox installed
+You should now see the `fedora_43` Vagrantbox installed
 ```
 [leif.liddy@m1 ~]$ vagrant box list
-fedora_42      (libvirt, 20250622)
+fedora_43      (libvirt, 20250622)
 ```
 So to `ssh` and `chroot` into your Fedora Asahi Remix installation (when running on `macos`)   
 ```
@@ -72,7 +72,7 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 - The root password is **fedora**
 - Once the VM is running you can connect to it via ssh port 2222 ie ```ssh -l root -p 2222 m1```  
 - ```qemu-user-static``` is needed if building the image on a ```non-aarch64``` system  
-- This project is based on `mkosi v24` which matches the current version of `mkosi` in the `F42` repo
+- This project is based on `mkosi v24` which matches the current version of `mkosi` in the `F43` repo
   https://src.fedoraproject.org/rpms/mkosi/  
   However....`mkosi` is updated so quickly that it's difficult to keep up at times (I have several projects based on `mkosi`)  
   I'll strive to keep things updated to the latest version supported in Fedora  
@@ -81,7 +81,7 @@ The image can be built via `mkosi` or via booting and installing via an `iso` im
 
 ## To build the image via `mkosi`
 ```# sudo is needed to mount the linux partitions -- but it also jacks with the vagrant permissions # which meants after running vagrant with sudo -- every subsequent vagrant command needs to run with sudo  # so now run 
-# This needs to be built on a Fedora 42 system
+# This needs to be built on a Fedora 43 system
 ./build.sh
 # this will create the following images:
 1. mkosi.output/fedora.raw
@@ -119,13 +119,13 @@ cd vagrant
 This script is only supported on Linux at the moment  
 The output will produce two files
 ```
-fedora_42.box
-fedora_42.json
+fedora_43.box
+fedora_43.json
 ```
 Although you can add a vagrant box directly -- it's better add it via the json file  
 To add a new vagrant box 
 ```
-vagrant box add fedora_42.json
+vagrant box add fedora_43.json
 ```
 
 ## To perform a Fedora installation via an `iso` image
