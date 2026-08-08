@@ -6,7 +6,7 @@ set -e
 mnt_image="$(pwd)/mnt_image"
 mkosi_output='mkosi.output'
 disk_raw="$mkosi_output/fedora.raw"
-mkosi_max_supported_version=23
+mkosi_max_supported_version=26
 
 if [ "$(whoami)" != 'root' ]; then
     echo "You must be root to run this script."

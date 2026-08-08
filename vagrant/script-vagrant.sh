@@ -2,9 +2,9 @@
 
 #set -x
 
-# -w will point the url to https://leifliddy.com/vagrant/fedora_43.box vs fedora_43.box
+# -w will point the url to https://leifliddy.com/vagrant/fedora_44.box vs fedora_44.box
 image_name='fedora.qcow2'
-vbox_image_name='fedora_43'
+vbox_image_name='fedora_44'
 box_name="${vbox_image_name}.box"
 web_url_box="https://leifliddy.com/vagrant/$box_name"
 kill='kill'
