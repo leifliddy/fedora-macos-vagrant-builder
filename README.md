@@ -40,8 +40,9 @@ You should now see the `fedora_44` Vagrantbox installed
 [leif.liddy@m1 ~]$ vagrant box list
 fedora_44      (libvirt, 20250622)
 ```
-So to `ssh` and `chroot` into your Fedora Asahi Remix installation (when running on `macos`)   
+So to boot the vagrant box, then `ssh` into it and `chroot` into your Fedora Asahi Remix installation (when running on `macos`)   
 ```
+./vagrant up
 ./vagrant ssh
 chroot.asahi
 ```
